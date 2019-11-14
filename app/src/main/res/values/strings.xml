@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">myTestProgram</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="SelectingType">Select type of note</string>
+    <string name="not_selected">Not selected!</string>
+    <string name="addnote">Add</string>
+    <string name="groupsnotes">Notes</string>
+    <string name="home_settings">Home</string>
+    <string name="record">Record</string>
+    <string name="task">Task</string>
+    <string name="list">List</string>
+    <string name="schedule">Schedule</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="action">Action</string>
+    <string name="description">Description</string>
+    <string name="other_params">Other params</string>
+    <string name="password">password</string>
+    <string name="notice_device">Notice the device</string>
+    <string name="manage_check_times">Manage the check times</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>

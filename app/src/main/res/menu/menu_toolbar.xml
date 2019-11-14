@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="найти"
+          app:showAsAction="always" android:icon="@drawable/ic_notifications_black_24dp"/>
+
+    <item
+            android:title="добавить"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_dashboard_black_24dp"/>
+</menu>
