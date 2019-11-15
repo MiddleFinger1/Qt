@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import mytestprogram.models.InfoPrototype
-import mytestprogram.models.InfoType
 import mytestprogram.AddNoteForm
 import mytestprogram.NavigationActivity
 import mytestprogram.R

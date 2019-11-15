@@ -4,56 +4,22 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import java.util.*
+import models.*
 import kotlin.collections.ArrayList
 
-class DBModel(private val context: Context)
-    : SQLiteOpenHelper(context, NAME_TABLE, null, VERSION
-){
+class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABLE, null, VERSION){
 
-    val mainGroup = MainGroup()
-
-    companion object {
-        const val NAME_TABLE = "data.db"
-        const val TABLE_NOTES = "notes"
-        const val VERSION = 1
-        const val ID = "id"
-        const val TYPE = "type"
-        const val ACTION = "action"
-        const val DESCRIPTION = "description"
-        const val LINKS = "links"
-        const val DATE_CREATE = "dateCreate"
-        const val DATE_DEADLINE = "dateDeadLine"
-        const val PATHS = "paths"
-        const val LEVEL_PRIVACY = "levelPrivacy"
-        const val PASSWORD = "password"
-        const val NAME_OF_DEVICE = "nameOfDevice"
-        const val CHECK_TIME = "checkTimes"
-        const val IS_IMPORTANT = "isImportant"
-        const val IS_IN_TRASH = "isInTrash"
-    }
+    lateinit var mainGroup: Group
+    private var maxId = 0
+    private var maxListId = 0
+    private var maxScheduleId = 0
 
     override fun onCreate(database: SQLiteDatabase?) {
         try {
-            database!!.execSQL("""
-                CREATE TABLE IF NOT EXISTS $TABLE_NOTES
-                (
-                    $ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    $TYPE INTEGER,
-                    $LEVEL_PRIVACY INTEGER,
-                    $IS_IMPORTANT INTEGER,
-                    $ACTION TEXT,
-                    $DESCRIPTION TEXT,
-                    $NAME_OF_DEVICE VARCHAR(50),
-                    $PASSWORD VARCHAR(50),
-                    $DATE_CREATE VARCHAR(50),
-                    $DATE_DEADLINE VARCHAR(50),
-                    $CHECK_TIME VARCHAR(50),
-                    $LINKS VARCHAR(50),
-                    $PATHS VARCHAR(50),
-                    $IS_IN_TRASH INTEGER
-                );
-            """.trimIndent())
+            database!!.execSQL(CREATE_TABLES)
+            maxId = findMaxId(TABLE_NOTES)
+            maxListId = findMaxId(TABLE_LISTS)
+            maxScheduleId = findMaxId(TABLE_SCHEDULES)
         }
         catch (ex: Exception) {
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
@@ -66,91 +32,190 @@ class DBModel(private val context: Context)
         onCreate(database)
     }
 
-    fun selectNotes() {
-        readableDatabase.rawQuery("SELECT * FROM $TABLE_NOTES", null).apply {
-            while(moveToNext())
-                mainGroup.addNote(InfoPrototype(
-                    id = getInt(getColumnIndex(ACTION)),
-                    type = intToType(getInt(getColumnIndex(TYPE))),
-                    action = getString(getColumnIndex(ACTION)),
-                    description = getString(getColumnIndex(DESCRIPTION)),
-                    links = stringToLinks(getString(getColumnIndex(LINKS))),
-                    dateCreate = stringToCalendar(getString(getColumnIndex(DATE_CREATE))),
-                    dateDeadLine = stringToCalendar(getString(getColumnIndex(DATE_DEADLINE))),
-                    paths = stringToPaths(getString(getColumnIndex(PATHS))),
-                    isImportant = getInt(getColumnIndex(IS_IMPORTANT)) == 1,
-                    password = getString(getColumnIndex(PASSWORD)),
-                    nameOfDevice = getString(getColumnIndex(NAME_OF_DEVICE)),
-                    levelPrivacy = intToPrivacy(getInt(getColumnIndex(LEVEL_PRIVACY))),
-                    checkTimes = stringToCheckTime(getString(getColumnIndex(CHECK_TIME))),
-                    isInTrash = getInt(getColumnIndex(IS_IN_TRASH)) == 1
-                    ))
+    private fun findMaxId(table: String): Int {
+        val resultSet = readableDatabase.rawQuery("SELECT $ID FROM $table ORDER BY $ID DESC LIMIT 1;", null)
+        while (resultSet.moveToNext()) {
+            val id = resultSet.getInt(resultSet.getColumnIndex(ID))
+            resultSet.close()
+            return id
+        }
+        return -1
+    }
+
+    fun createGroup(){
+        mainGroup = Group.createGroup(select()) {
+            true
+        }
+    }
+
+    fun deleteNote(id: Int, childId: Int = -1){
+        var sql = ""
+        readableDatabase.rawQuery("SELECT * FROM $TABLE_NOTES WHERE $ID = $id;", null).apply {
+            while (moveToNext()){
+                val table = when (getInt(getColumnIndex(TYPE))) {
+                    0 -> TABLE_RECORDS
+                    1 -> TABLE_TASKS
+                    2 -> TABLE_LISTS
+                    3 -> TABLE_SCHEDULES
+                    else -> ""
+                }
+                sql = if (childId >= 0) "DELETE FROM $table WHERE $PARENT_ID = $id AND $ID = $childId;"
+                else "DELETE FROM $TABLE_NOTES WHERE $ID = $id;\nDELETE FROM $table WHERE $PARENT_ID = $id;"
+            }
+            close()
+        }
+        writableDatabase.execSQL(sql)
+    }
+
+    // pre-download properties in infoPrototype
+    private fun selectDownloads(info: InfoPrototype){
+        val query = when {
+            (info is InfoRecord) -> "SELECT * FROM $TABLE_RECORDS WHERE $PARENT_ID = ${info.id};"
+            (info is InfoTask) -> "SELECT * FROM $TABLE_TASKS WHERE $PARENT_ID = ${info.id};"
+            (info is InfoList) -> "SELECT * FROM $TABLE_LISTS WHERE $PARENT_ID = ${info.id};"
+            (info is InfoSchedule) -> "SELECT * FROM $TABLE_SCHEDULES WHERE $PARENT_ID = ${info.id};"
+            else -> ""
+        }
+        readableDatabase.rawQuery(query, null).apply {
+            while (moveToNext())
+                when {
+                    (info is InfoRecord) -> info.paths = stringToPaths(getString(getColumnIndex(PATHS)))
+                    (info is InfoTask) -> {
+                        info.links = stringToLinks(getString(getColumnIndex(LINKS)))
+                        info.checkTimes = stringToCheckTime(getString(getColumnIndex(CHECK_TIME)))
+                        info.deadLine = stringToCalendar(getString(getColumnIndex(DATE_DEADLINE)))
+                    }
+                    (info is InfoList) -> info.groupListItems.add(
+                        InfoListItem(getInt(getColumnIndex(ID)), getInt(getColumnIndex(PARENT_ID)),
+                            getString(getColumnIndex(ACTION)), getString(getColumnIndex(DESCRIPTION)))
+                    )
+                    (info is InfoSchedule) -> info.groupScheduleItems.add(
+                        InfoScheduleItem(getInt(getColumnIndex(ID)), getInt(getColumnIndex(PARENT_ID)),
+                            getString(getColumnIndex(ACTION)), getString(getColumnIndex(DESCRIPTION)),
+                            stringToCalendar(getString(getColumnIndex(DATE_CREATE)))
+                        ))
+                }
             close()
         }
     }
 
-    fun createNote(info: InfoPrototype){
-        readableDatabase.beginTransaction()
-        try {
-            val sql: String
-            info.apply {
-                sql = "INSERT INTO " +
-                        "$TABLE_NOTES ($TYPE, $LEVEL_PRIVACY, $IS_IMPORTANT, $ACTION, $DESCRIPTION, $NAME_OF_DEVICE, " +
-                        " $PASSWORD, $DATE_CREATE, $DATE_DEADLINE, $CHECK_TIME, $LINKS, $PATHS, $IS_IN_TRASH)" +
-                        " VALUES (${typeToInt(type)}, " +
-                        "${privacyToInt(levelPrivacy)}, " +
-                        "${if (isImportant) 1 else 0}, " +
-                        "'$action', '$description', '$nameOfDevice', '$password', " +
-                        "'${calendarToString(dateCreate)}', " +
-                        "'${if (dateDeadLine is Calendar) calendarToString(dateDeadLine) else ""}', " +
-                        "'${if (checkTimes is ArrayList<Calendar>) checkTimeToString(checkTimes) else ""}', " +
-                        "'${if (links is ArrayList<Int>) linksToString(links) else ""}', " +
-                        "'${if (paths is ArrayList<String>) pathsToString(paths) else ""}', " +
-                        "${if (isInTrash) 1 else 0}" +
-                        ");"
+    private fun select(): ArrayList<InfoPrototype> {
+        val array = arrayListOf<InfoPrototype>()
+        readableDatabase.rawQuery("SELECT * FROM $TABLE_NOTES", null).apply {
+            while(moveToNext()) {
+                val info : InfoPrototype = object : InfoPrototype() {
+                    override val id = getInt(getColumnIndex(ACTION))
+                    override val action = getString(getColumnIndex(ACTION))
+                    override val description = getString(getColumnIndex(DESCRIPTION))
+                    override val dateCreate = stringToCalendar(getString(getColumnIndex(DATE_CREATE)))
+                    override val isImportant = getInt(getColumnIndex(IS_IMPORTANT)) == 1
+                    override val password = getString(getColumnIndex(PASSWORD))
+                    override val nameDevice = getString(getColumnIndex(NAME_OF_DEVICE))
+                    override val levelPrivacy = getInt(getColumnIndex(LEVEL_PRIVACY))
+                    override val isInTrash = getInt(getColumnIndex(IS_IN_TRASH)) == 1
+                }
+                when (getInt(getColumnIndex(TYPE))){
+                    0 -> info is InfoRecord
+                    1 -> info is InfoTask
+                    2 -> info is InfoList
+                    3 -> info is InfoSchedule
+                }
+                selectDownloads(info)
+                array += info
             }
-            mainGroup.addNote(info)
-            Toast.makeText(context, sql, Toast.LENGTH_SHORT).show()
-            readableDatabase.execSQL(sql)
-            readableDatabase.setTransactionSuccessful()
+            close()
         }
-        catch (ex: Exception){
-            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
-            readableDatabase.endTransaction()
+        return array
+    }
+
+    fun insertNote(info: InfoPrototype){
+        try {
+            var sql = ""
+            val type = when {
+                (info is InfoRecord) -> {
+                    sql = "INSERT INTO $TABLE_RECORDS ($PARENT_ID, $PATHS) VALUES ($maxId, '${pathsToString(info.paths)}');\n"
+                    0
+                }
+                (info is InfoTask) -> {
+                    sql = "INSERT INTO $TABLE_TASKS ($PARENT_ID, $LINKS, $CHECK_TIME, $DATE_DEADLINE) " +
+                            "VALUES ($maxId, '${linksToString(info.links)}', " +
+                            "'${checkTimeToString(info.checkTimes)}', '${calendarToString(info.deadLine)}');\n"
+                    1
+                }
+                (info is InfoList) -> {
+                    for (item in info.groupListItems)
+                        sql += "INSERT INTO $TABLE_LISTS ($PARENT_ID, $ACTION, $DESCRIPTION) " +
+                                "VALUES ($maxId, '${item.action}', '${item.description}');\n"
+                    2
+                }
+                (info is InfoSchedule) -> {
+                    for (item in info.groupScheduleItems)
+                        sql += "INSERT INTO $TABLE_SCHEDULES ($PARENT_ID, $ACTION, $DESCRIPTION, $DATE_CREATE)" +
+                                "VALUES ($maxId, '${item.action}', '${item.description}', '${calendarToString(item.dateCreate)}');\n"
+                    3
+                }
+                (info is InfoListItem) -> {
+                    writableDatabase.execSQL(
+                        "INSERT INTO $TABLE_LISTS ($PARENT_ID, $ACTION, $DESCRIPTION)" +
+                                " VALUES (${info.parentId}, '${info.action}', '${info.description}');\n"
+                    )
+                    return
+                }
+                (info is InfoScheduleItem) -> {
+                    writableDatabase.execSQL(
+                        "INSERT INTO $TABLE_SCHEDULES ($PARENT_ID, $ACTION, $DESCRIPTION, $DATE_CREATE) " +
+                                "VALUES (${info.parentId}, '${info.action}', '${info.description}', " +
+                                "'${calendarToString(info.dateCreate)}');"
+                    )
+                    return
+                }
+                else -> -1
+            }
+            maxId++
+            info.apply {
+                sql += """INSERT INTO $TABLE_NOTES
+                    ($TYPE, $ACTION, $DESCRIPTION, $NAME_OF_DEVICE, $IS_IMPORTANT,
+                    $IS_IN_TRASH, $DATE_CREATE, $LEVEL_PRIVACY, $PASSWORD)
+                    VALUES ($type, '$action', '$description', '$nameDevice', $isImportant,
+                    $isInTrash, '${calendarToString(dateCreate)}', $levelPrivacy, '$password');"""
+                writableDatabase.execSQL(sql)
+            }
+        }
+        catch(ex: Exception){
+            println(ex)
         }
     }
 
     fun updateNote(id: Int, info: InfoPrototype){
-        val sql: String
-        readableDatabase.beginTransaction()
-        try {
-            info.apply {
-                sql = "UPDATE $TABLE_NOTES SET " +
-                        "$LEVEL_PRIVACY = ${levelPrivacy}, " +
-                        "$IS_IMPORTANT = ${isImportant}, " +
-                        "$ACTION = '${action}', " +
-                        "$DESCRIPTION = '${description}', " +
-                        "$NAME_OF_DEVICE = '${nameOfDevice}, '" +
-                        "$PASSWORD = '${password}, '" +
-                        "$DATE_CREATE = '${calendarToString(dateCreate)}, '" +
-                        "$DATE_DEADLINE = '${if (dateDeadLine is Calendar)
-                            calendarToString(dateDeadLine) else ""}', " +
-                        "$CHECK_TIME = '${if (checkTimes is ArrayList<Calendar>)
-                            checkTimeToString(checkTimes) else ""}', " +
-                        "$LINKS = '${if (links is ArrayList<Int>)
-                            linksToString(links) else ""}', " +
-                        "$PATHS = '${if (paths is ArrayList<String>)
-                            pathsToString(paths) else ""}'," +
-                        "$IS_IN_TRASH = ${if (isInTrash) 1 else 0}" +
-                        "WHERE $ID = $id;"
-            }
-            Toast.makeText(context, sql, Toast.LENGTH_LONG).show()
-            readableDatabase.execSQL(sql)
-            readableDatabase.setTransactionSuccessful()
+        var sql = ""
+        when {
+            (info is InfoRecord) ->
+                sql += "UPDATE $TABLE_RECORDS SET $PARENT_ID = $id, $PATHS = '${pathsToString(info.paths)}' WHERE $PARENT_ID = $id;"
+            (info is InfoTask) ->
+                sql += "UPDATE $TABLE_TASKS SET $PARENT_ID = $id, $LINKS = '${linksToString(info.links)}', " +
+                        "$CHECK_TIME = '${checkTimeToString(info.checkTimes)}', " +
+                        "$DATE_DEADLINE = '${calendarToString(info.deadLine)}' WHERE $PARENT_ID = $id;"
+            (info is InfoList) ->
+                for (item in info.groupListItems)
+                    sql += "UPDATE $TABLE_LISTS SET $PARENT_ID = $id, $ACTION = '${item.action}'," +
+                            " $DESCRIPTION = '${item.description}' WHERE $ID = ${item.id};"
+            (info is InfoSchedule) ->
+                for (item in info.groupScheduleItems)
+                    sql += "UPDATE $TABLE_LISTS SET $PARENT_ID = $id, $ACTION = '${item.action}', $DESCRIPTION = " +
+                            "'${item.description}', $DATE_CREATE = '${calendarToString(item.dateCreate)}' WHERE $ID = ${item.id};"
         }
-        catch (ex: Exception){
-            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
-            readableDatabase.endTransaction()
+        info.apply {
+            sql += """UPDATE $TABLE_NOTES SET 
+            $ACTION = '$action', 
+            $DESCRIPTION = '$description',
+            $NAME_OF_DEVICE = '$nameDevice',
+            $IS_IMPORTANT = $isImportant,
+            $IS_IN_TRASH = $isInTrash,
+            $LEVEL_PRIVACY = $levelPrivacy,
+            $PASSWORD = '$password'
+             WHERE $ID = $id;
+        """.trimMargin()
         }
+        writableDatabase.execSQL(sql)
     }
 }

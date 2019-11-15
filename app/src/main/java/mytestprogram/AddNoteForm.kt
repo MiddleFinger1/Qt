@@ -9,7 +9,6 @@ import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import mytestprogram.models.InfoPrototype
 import mytestprogram.models.InfoPrototype.LevelPrivacy
-import mytestprogram.models.InfoType
 
 
 class AddNoteForm: Fragment(), SendListener {

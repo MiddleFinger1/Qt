@@ -8,7 +8,6 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import mytestprogram.models.InfoType
 
 class ModalWindow: DialogFragment() {
 

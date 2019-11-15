@@ -1,11 +1,13 @@
-package mytestprogram.models
+package models
 
-import java.util.*
+import java.util.Calendar
+import java.util.GregorianCalendar
 import kotlin.collections.ArrayList
 
-fun calendarToString(calendar: Calendar) =
-    "${calendar[Calendar.SECOND]}.${calendar[Calendar.MINUTE]}.${calendar[Calendar.HOUR]}." +
+fun calendarToString(calendar: Calendar?) =
+    if (calendar != null) "${calendar[Calendar.SECOND]}.${calendar[Calendar.MINUTE]}.${calendar[Calendar.HOUR]}." +
             "${calendar[Calendar.DAY_OF_MONTH]}.${calendar[Calendar.MONTH]}.${calendar[Calendar.YEAR]}"
+    else ""
 
 fun stringToCalendar(string: String) =
     GregorianCalendar().apply {
@@ -23,46 +25,36 @@ fun stringToCalendar(string: String) =
         }
     }
 
-fun linksToString(links: ArrayList<Int>) = ""
+fun linksToString(links: ArrayList<Int>): String {
+    var string = ""
+    for (link in links) string += "$link|"
+    return string
+}
 
-fun stringToLinks(string: String) = null
-
-fun pathsToString(array: ArrayList<String>) = ""
-
-fun stringToPaths(string: String) = null
-
-fun stringToCheckTime(string: String) = null
-
-fun checkTimeToString(array: ArrayList<Calendar>) = ""
-
-fun intToType(type: Int) =
-    when(type) {
-        0 -> InfoType.RECORD
-        1 -> InfoType.TASK
-        2 -> InfoType.LIST
-        3 -> InfoType.SCHEDULE
-        else -> InfoType.NONE
+fun stringToLinks(string: String) =
+    arrayListOf<Int>().apply {
+        for (item in string.split("|"))
+            if (item != "") add(item.toInt())
     }
 
-fun privacyToInt(privacy: InfoPrototype.LevelPrivacy) =
-    when (privacy) {
-        InfoPrototype.LevelPrivacy.PUBLIC -> 0
-        InfoPrototype.LevelPrivacy.READONLY -> 1
-        InfoPrototype.LevelPrivacy.PRIVATE -> 2
+fun pathsToString(array: ArrayList<String>): String {
+    var string = ""
+    for (item in array) string += "$item|"
+    return string
+}
+
+fun stringToPaths(string: String) =
+    arrayListOf<String>().apply {
+        addAll(string.split("|").filter { it != "" })
     }
 
-fun intToPrivacy(int: Int) =
-    when (int){
-        2 -> InfoPrototype.LevelPrivacy.PRIVATE
-        1 -> InfoPrototype.LevelPrivacy.READONLY
-        else -> InfoPrototype.LevelPrivacy.PUBLIC
+fun stringToCheckTime(string: String) =
+    arrayListOf<Calendar>().apply {
+        addAll(string.split("|").map { stringToCalendar(it) })
     }
 
-fun typeToInt(type: InfoType) =
-    when(type) {
-        InfoType.RECORD -> 0
-        InfoType.TASK -> 1
-        InfoType.LIST -> 2
-        InfoType.SCHEDULE -> 3
-        InfoType.NONE -> -1
-    }
+fun checkTimeToString(array: ArrayList<Calendar>): String {
+    var string = ""
+    for (item in array) string += calendarToString(item) + "|"
+    return string
+}
