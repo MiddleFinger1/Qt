@@ -5,12 +5,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.widget.Toast
 import mytestprogram.customs.BackgroundService
 import mytestprogram.models.DBModel
-
 
 class NavigationActivity : AppCompatActivity() {
 

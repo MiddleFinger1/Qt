@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import mytestprogram.NavigationActivity
 import kotlin.collections.ArrayList
 
 class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABLE, null, VERSION){
@@ -102,22 +103,26 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
         val array = arrayListOf<InfoPrototype>()
         readableDatabase.rawQuery("SELECT * FROM $TABLE_NOTES", null).apply {
             while(moveToNext()) {
-                val info : InfoPrototype = object : InfoPrototype() {
-                    override val id = getInt(getColumnIndex(ACTION))
-                    override val action = getString(getColumnIndex(ACTION))
-                    override val description = getString(getColumnIndex(DESCRIPTION))
-                    override val dateCreate = stringToCalendar(getString(getColumnIndex(DATE_CREATE)))
-                    override val isImportant = getInt(getColumnIndex(IS_IMPORTANT)) == 1
-                    override val password = getString(getColumnIndex(PASSWORD))
-                    override val nameDevice = getString(getColumnIndex(NAME_OF_DEVICE))
-                    override val levelPrivacy = getInt(getColumnIndex(LEVEL_PRIVACY))
-                    override val isInTrash = getInt(getColumnIndex(IS_IN_TRASH)) == 1
-                }
-                when (getInt(getColumnIndex(TYPE))){
-                    0 -> info is InfoRecord
-                    1 -> info is InfoTask
-                    2 -> info is InfoList
-                    3 -> info is InfoSchedule
+                val id = getInt(ID)
+                val type = getInt(TYPE)
+                val action = getString(ACTION)
+                val description = getString(DESCRIPTION)
+                val nameOfDevice = getString(NAME_OF_DEVICE)
+                val isImportant = getInt(IS_IMPORTANT) == 1
+                val isInTrash = getInt(IS_IN_TRASH) == 1
+                val calendar = stringToCalendar(getString(DATE_CREATE))
+                val levelPrivacy = getInt(LEVEL_PRIVACY)
+                val password = getString(PASSWORD)
+                val info: InfoPrototype = when (type){
+                    0 -> InfoRecord(id, action, description, nameOfDevice,
+                        isImportant, isInTrash, calendar, levelPrivacy, password)
+                    1 -> InfoTask(id, action, description, nameOfDevice,
+                            isImportant, isInTrash, calendar, levelPrivacy, password)
+                    2 -> InfoList(id, action, description, nameOfDevice,
+                            isImportant, isInTrash, calendar, levelPrivacy, password)
+                    3 -> InfoSchedule(id, action, description, nameOfDevice,
+                            isImportant, isInTrash, calendar, levelPrivacy, password)
+                    else -> throw Exception() //
                 }
                 selectDownloads(info)
                 array += info
@@ -175,13 +180,14 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                 sql += """INSERT INTO $TABLE_NOTES
                     ($TYPE, $ACTION, $DESCRIPTION, $NAME_OF_DEVICE, $IS_IMPORTANT,
                     $IS_IN_TRASH, $DATE_CREATE, $LEVEL_PRIVACY, $PASSWORD)
-                    VALUES ($type, '$action', '$description', '$nameDevice', $isImportant,
-                    $isInTrash, '${calendarToString(dateCreate)}', $levelPrivacy, '$password');"""
+                    VALUES ($type, '$action', '$description', '$nameDevice', ${if (isImportant) 1 else 0},
+                    ${if (isInTrash) 1 else 0}, '${calendarToString(dateCreate)}', $levelPrivacy, '$password');"""
+                Toast.makeText(context, sql, Toast.LENGTH_LONG).show()
                 writableDatabase.execSQL(sql)
             }
         }
         catch(ex: Exception){
-            println(ex)
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
 

@@ -123,7 +123,6 @@ class AddNoteForm: Fragment(), SendListener {
                 LIST_TYPE -> info is InfoList
                 SCHEDULE_TYPE -> info is InfoSchedule
             }
-
             // create a new info in db
             try {
                 if (mode == FORM_MODE)
