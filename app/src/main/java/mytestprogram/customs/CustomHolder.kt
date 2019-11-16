@@ -4,11 +4,10 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
-import mytestprogram.models.InfoPrototype
 import mytestprogram.AddNoteForm
 import mytestprogram.NavigationActivity
 import mytestprogram.R
-import mytestprogram.models.calendarToString
+import mytestprogram.models.*
 
 class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickListener{
 
@@ -41,11 +40,11 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
     fun createHolder(activity: NavigationActivity, info: InfoPrototype){
 
         imageTypeNote.setImageResource(
-            when (info.type) {
-                InfoType.RECORD -> R.drawable.record_note
-                InfoType.TASK -> R.drawable.task_note
-                InfoType.LIST -> R.drawable.list_note
-                InfoType.SCHEDULE -> R.drawable.schedule_note
+            when {
+                (info is InfoRecord) -> R.drawable.record_note
+                (info is InfoTask) -> R.drawable.task_note
+                (info is InfoList) -> R.drawable.list_note
+                (info is InfoSchedule) -> R.drawable.schedule_note
                 else -> 0
             }
         )
@@ -54,18 +53,18 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
 
         privacyState.setBackgroundResource(
             when (info.levelPrivacy) {
-                InfoPrototype.LevelPrivacy.PUBLIC -> R.drawable.flag_green_active
-                InfoPrototype.LevelPrivacy.READONLY -> R.drawable.flag_blue_active
-                InfoPrototype.LevelPrivacy.PRIVATE -> R.drawable.flag_red_active
+                1 -> R.drawable.flag_blue_active
+                2 -> R.drawable.flag_red_active
+                else -> R.drawable.flag_green_active
             }
         )
         dateCreate.text = calendarToString(info.dateCreate)
 
         editMode.setOnClickListener {
             try {
-                if (info.levelPrivacy == InfoPrototype.LevelPrivacy.PRIVATE)
+                if (info.levelPrivacy == 2)
                     Toast.makeText(activity.baseContext, "недоступен данный режим", Toast.LENGTH_SHORT).show()
-                else if (info.levelPrivacy == InfoPrototype.LevelPrivacy.PUBLIC) {
+                else if (info.levelPrivacy == 0) {
                     val fragment = AddNoteForm()
                     fragment.info = info
                     fragment.mode = AddNoteForm.EDIT_MODE
@@ -78,7 +77,7 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         }
 
         viewMode.setOnClickListener {
-            if (info.levelPrivacy != InfoPrototype.LevelPrivacy.PRIVATE){
+            if (info.levelPrivacy != 2){
                 val fragment = AddNoteForm()
                 fragment.info = info
                 fragment.mode = AddNoteForm.VIEW_MODE
