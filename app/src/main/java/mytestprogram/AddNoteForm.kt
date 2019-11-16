@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams
-import mytestprogram.models.InfoPrototype
-import mytestprogram.models.InfoPrototype.LevelPrivacy
+import mytestprogram.models.*
+import java.util.*
 
 
 class AddNoteForm: Fragment(), SendListener {
 
-    private var type = InfoType.NONE
+    private var type = -1
     lateinit var activity: NavigationActivity
     private lateinit var buttonOk: Button
     private lateinit var buttonCancel: Button
@@ -82,11 +82,10 @@ class AddNoteForm: Fragment(), SendListener {
         }
 
         when (type) {
-            InfoType.RECORD -> { }
-            InfoType.TASK -> { }
-            InfoType.LIST -> { }
-            InfoType.SCHEDULE -> { }
-            else -> {}
+            RECORD_TYPE -> { }
+            TASK_TYPE -> { }
+            LIST_TYPE -> { }
+            SCHEDULE_TYPE -> { }
         }
 
         setMode(mode, info)
@@ -98,29 +97,37 @@ class AddNoteForm: Fragment(), SendListener {
         if (action != ""){
             // check levelPrivacy by radio buttons
             val levelPrivacy = when {
-                (statePrivacy == "readonly" && textPassword.text.toString() != "")
-                -> LevelPrivacy.READONLY
-                (statePrivacy == "private" && textPassword.text.toString() != "")
-                -> LevelPrivacy.PRIVATE
-                (statePrivacy == "public") -> LevelPrivacy.PUBLIC
+                (statePrivacy == "readonly" && textPassword.text.toString() != "") -> 0
+                (statePrivacy == "private" && textPassword.text.toString() != "") -> 1
+                (statePrivacy == "public") -> 2
                 else -> {
                     Toast.makeText(context, "fill password", Toast.LENGTH_SHORT).show()
                     return
                 }
             }
             // initialize info for adding in database
-            val info = InfoPrototype(
-                type = type,
-                action = action,
-                description = textDescription.text.toString(),
-                levelPrivacy = levelPrivacy,
-                isImportant = importantLabel.isChecked,
-                nameOfDevice = if (noticeDevice.isChecked) android.os.Build.MODEL else ""
-            )
+            val info: InfoPrototype = object: InfoPrototype() {
+                override val id = -1
+                override val action = action
+                override val description = textDescription.text.toString()
+                override val nameDevice = android.os.Build.MODEL
+                override val isImportant = importantLabel.isChecked
+                override val isInTrash = false
+                override val dateCreate = Calendar.getInstance()
+                override val levelPrivacy = levelPrivacy
+                override val password = textPassword.text.toString()
+            }
+            when(type){
+                RECORD_TYPE -> info is InfoRecord
+                TASK_TYPE -> info is InfoTask
+                LIST_TYPE -> info is InfoList
+                SCHEDULE_TYPE -> info is InfoSchedule
+            }
+
             // create a new info in db
             try {
                 if (mode == FORM_MODE)
-                    activity.dbModel.createNote(info)
+                    activity.dbModel.insertNote(info)
                 else if (mode == FORM_MODE)
                     activity.dbModel.updateNote(oldInfo!!.id, info)
             }
@@ -139,11 +146,11 @@ class AddNoteForm: Fragment(), SendListener {
         if ((mode == EDIT_MODE || mode == VIEW_MODE) && info != null){
             textAction.text.append(info.action)
             textDescription.text.append(info.description)
-            noticeDevice.isChecked = info.nameOfDevice != ""
+            noticeDevice.isChecked = info.nameDevice != ""
             importantLabel.isChecked = info.isImportant
             textPassword.text.append(info.password)
         }
-        if (mode == EDIT_MODE || mode == FORM_MODE) {
+        if (mode == EDIT_MODE || mode == FORM_MODE)
             privacyGroup.setOnCheckedChangeListener{ group: RadioGroup, id: Int ->
                 statePrivacy = when(id){
                     R.id.addNote_PublicButton -> "public"
@@ -152,8 +159,6 @@ class AddNoteForm: Fragment(), SendListener {
                     else -> ""
                 }
             }
-        }
-
         when (mode){
             FORM_MODE -> buttonOk.setOnClickListener { acceptCreating() }
             EDIT_MODE -> buttonOk.setOnClickListener { acceptCreating(info) }
@@ -172,7 +177,7 @@ class AddNoteForm: Fragment(), SendListener {
     }
 
     override fun onSend(data: Any?) {
-        if (data is InfoType) type = data
+        if (data is Int) type = data
     }
 
 }

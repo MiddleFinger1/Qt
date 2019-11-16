@@ -1,14 +1,10 @@
 package mytestprogram
 
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.widget.Toast
@@ -43,8 +39,6 @@ class NavigationActivity : AppCompatActivity() {
 
         try {
             dbModel = DBModel(baseContext)
-            dbModel.selectNotes()
-
         }
         catch (ex: Exception) {
             Toast.makeText(baseContext, ex.toString(), Toast.LENGTH_LONG).show()

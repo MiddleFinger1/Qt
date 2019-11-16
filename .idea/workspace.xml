@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="901bb772-5538-4518-ac70-a390dd8e074f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Converting.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Converting.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoPrototype.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoPrototype.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,22 +31,22 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="85">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
               <folding>
-                <element signature="e#30#237#0" expanded="true" />
-                <element signature="e#1150#2064#0" />
-                <element signature="e#2154#2336#0" />
-                <element signature="e#1175#1380#0" />
-                <element signature="e#1675#2463#0" />
-                <element signature="e#1736#3210#0" />
-                <element signature="e#1657#3036#0" />
-                <element signature="e#5740#8620#0" />
-                <element signature="e#5345#6980#0" />
+                <element signature="e#498#839#0" />
+                <element signature="e#929#1111#0" />
+                <element signature="e#1159#1464#0" />
+                <element signature="e#1487#1571#0" />
+                <element signature="e#1619#2340#0" />
+                <element signature="e#2442#4196#0" />
+                <element signature="e#4249#5646#0" />
+                <element signature="e#5687#8484#0" />
+                <element signature="e#8534#10160#0" />
               </folding>
             </state>
           </provider>
@@ -55,7 +60,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Group.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoPrototype.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoListItem.kt" />
@@ -64,11 +68,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoSchedule.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoTask.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoList.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Converting.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-23" />
     <option name="y" value="25" />
     <option name="width" value="1004" />
@@ -135,9 +145,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -231,31 +241,41 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1040" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1040" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Capture Tool" />
-      <window_info content_ui="combo" id="Project" weight="0.32910156" />
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Resources Explorer" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Logcat" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Build" weight="0.328594" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Gradle" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Designer" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.24902344" />
+      <window_info id="Structure" order="3" side_tool="true" />
+      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Resources Explorer" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.328594" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info anchor="bottom" id="Android Profiler" order="2" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="5" weight="0.328594" />
+      <window_info anchor="bottom" id="Logcat" order="6" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
     </layout>
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoPrototype.kt">
@@ -265,20 +285,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Group.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoType.kt" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoList.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -321,6 +328,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Converting.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Group.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#23#470#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -328,20 +366,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#23#297#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="85">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
           <folding>
-            <element signature="e#30#237#0" expanded="true" />
-            <element signature="e#1150#2064#0" />
-            <element signature="e#2154#2336#0" />
-            <element signature="e#1175#1380#0" />
-            <element signature="e#1675#2463#0" />
-            <element signature="e#1736#3210#0" />
-            <element signature="e#1657#3036#0" />
-            <element signature="e#5740#8620#0" />
-            <element signature="e#5345#6980#0" />
+            <element signature="e#498#839#0" />
+            <element signature="e#929#1111#0" />
+            <element signature="e#1159#1464#0" />
+            <element signature="e#1487#1571#0" />
+            <element signature="e#1619#2340#0" />
+            <element signature="e#2442#4196#0" />
+            <element signature="e#4249#5646#0" />
+            <element signature="e#5687#8484#0" />
+            <element signature="e#8534#10160#0" />
           </folding>
         </state>
       </provider>

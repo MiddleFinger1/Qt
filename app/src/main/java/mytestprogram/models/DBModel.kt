@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import models.*
 import kotlin.collections.ArrayList
 
 class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABLE, null, VERSION){

@@ -1,12 +1,16 @@
 package mytestprogram.models
 
+const val RECORD_TYPE = 0
+const val VERSION = 1
+const val TASK_TYPE = 1
+const val LIST_TYPE = 2
+const val SCHEDULE_TYPE = 3
 const val NAME_TABLE = "data.db"
 const val TABLE_NOTES = "notes"
 const val TABLE_RECORDS = "records"
 const val TABLE_TASKS = "tasks"
 const val TABLE_LISTS = "lists"
 const val TABLE_SCHEDULES = "schedules"
-const val VERSION = 1
 const val ID = "id"
 const val PARENT_ID = "parentId"
 const val TYPE = "type"

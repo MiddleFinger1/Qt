@@ -29,6 +29,7 @@ class NotesGroup: Fragment() {
                 recyclerView.setHasFixedSize(true)
                 val adapter = CustomAdapter()
                 adapter.activity = activity
+                activity.dbModel.createGroup()
                 adapter.infos = activity.dbModel.mainGroup.getNotes()
                 recyclerView.adapter = adapter
             }

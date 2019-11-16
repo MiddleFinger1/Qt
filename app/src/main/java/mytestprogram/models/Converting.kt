@@ -1,4 +1,4 @@
-package models
+package mytestprogram.models
 
 import java.util.Calendar
 import java.util.GregorianCalendar
