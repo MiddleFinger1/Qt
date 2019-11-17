@@ -7,20 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="901bb772-5538-4518-ac70-a390dd8e074f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/MainGroup.kt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,27 +41,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-95">
-              <caret line="129" selection-start-line="129" selection-end-line="129" />
-              <folding>
-                <element signature="e#30#218#0" expanded="true" />
-                <element signature="e#929#1111#0" />
-                <element signature="e#1159#1464#0" />
-                <element signature="e#1487#1571#0" />
-                <element signature="e#1619#2340#0" />
-                <element signature="e#2442#4196#0" />
-                <element signature="e#4249#5646#0" />
-                <element signature="e#8534#10160#0" />
-              </folding>
+            <state relative-caret-position="323">
+              <caret line="192" selection-start-line="192" selection-end-line="192" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="114" column="12" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="12" />
+              <folding>
+                <element signature="e#23#297#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="97" selection-start-line="97" selection-end-line="97" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
             </state>
           </provider>
         </entry>
@@ -87,14 +103,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoTask.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/InfoList.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Converting.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/customs/CustomHolder.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt" />
       </list>
     </option>
   </component>
@@ -183,8 +199,8 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -280,7 +296,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1040" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1040" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
@@ -292,8 +308,6 @@
       <window_info id="Capture Tool" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Favorites" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Debug" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.328594" />
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Android Profiler" order="2" />
@@ -301,6 +315,8 @@
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="5" weight="0.328594" />
       <window_info anchor="bottom" id="Logcat" order="6" />
+      <window_info anchor="bottom" id="Debug" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
@@ -383,13 +399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/Constants.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -411,23 +420,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/MainGroup.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="106" column="13" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="13" />
-          <folding>
-            <element signature="e#23#297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/MainGroup.kt" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NavigationActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -438,16 +431,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_notes_group.xml">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/customs/BackgroundService.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -456,27 +442,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/NotesGroup.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-95">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
-          <folding>
-            <element signature="e#30#218#0" expanded="true" />
-            <element signature="e#929#1111#0" />
-            <element signature="e#1159#1464#0" />
-            <element signature="e#1487#1571#0" />
-            <element signature="e#1619#2340#0" />
-            <element signature="e#2442#4196#0" />
-            <element signature="e#4249#5646#0" />
-            <element signature="e#8534#10160#0" />
-          </folding>
+        <state relative-caret-position="296">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/HomeSettings.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/ModalWindow.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/models/DBModel.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="192" selection-start-line="192" selection-end-line="192" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mytestprogram/AddNoteForm.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="114" column="12" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="12" />
+          <folding>
+            <element signature="e#23#297#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

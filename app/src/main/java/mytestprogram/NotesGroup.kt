@@ -25,13 +25,18 @@ class NotesGroup: Fragment() {
                 fragment.showNow(activity.supportFragmentManager, fragment.javaClass.name)
             }
             try {
-                val recyclerView = findViewById<RecyclerView>(R.id.notesGroup_recyclerView)
-                recyclerView.setHasFixedSize(true)
-                val adapter = CustomAdapter()
-                adapter.activity = activity
+                //val recyclerView = findViewById<RecyclerView>(R.id.notesGroup_recyclerView)
+                //recyclerView.setHasFixedSize(true)
+                //val adapter = CustomAdapter()
+                //adapter.activity = activity
+                //activity.dbModel.createGroup()
+                //adapter.infos = activity.dbModel.mainGroup.getNotes()
+                //recyclerView.adapter = adapter
+
                 activity.dbModel.createGroup()
-                adapter.infos = activity.dbModel.mainGroup.getNotes()
-                recyclerView.adapter = adapter
+
+                for (item in activity.dbModel.mainGroup.getNotes())
+                    Toast.makeText(context, item.toString(), Toast.LENGTH_SHORT).show()
             }
             catch (ex: Exception) {
                 Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show()

@@ -103,16 +103,16 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
         val array = arrayListOf<InfoPrototype>()
         readableDatabase.rawQuery("SELECT * FROM $TABLE_NOTES", null).apply {
             while(moveToNext()) {
-                val id = getInt(ID)
-                val type = getInt(TYPE)
-                val action = getString(ACTION)
-                val description = getString(DESCRIPTION)
-                val nameOfDevice = getString(NAME_OF_DEVICE)
-                val isImportant = getInt(IS_IMPORTANT) == 1
-                val isInTrash = getInt(IS_IN_TRASH) == 1
-                val calendar = stringToCalendar(getString(DATE_CREATE))
-                val levelPrivacy = getInt(LEVEL_PRIVACY)
-                val password = getString(PASSWORD)
+                val id = getInt(getColumnIndex(ID))
+                val type = getInt(getColumnIndex(TYPE))
+                val action = getString(getColumnIndex(ACTION))
+                val description = getString(getColumnIndex(DESCRIPTION))
+                val nameOfDevice = getString(getColumnIndex(NAME_OF_DEVICE))
+                val isImportant = getInt(getColumnIndex(IS_IMPORTANT)) == 1
+                val isInTrash = getInt(getColumnIndex(IS_IN_TRASH)) == 1
+                val calendar = stringToCalendar(getString(getColumnIndex(DATE_CREATE)))
+                val levelPrivacy = getInt(getColumnIndex(LEVEL_PRIVACY))
+                val password = getString(getColumnIndex(PASSWORD))
                 val info: InfoPrototype = when (type){
                     0 -> InfoRecord(id, action, description, nameOfDevice,
                         isImportant, isInTrash, calendar, levelPrivacy, password)
@@ -124,7 +124,7 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                             isImportant, isInTrash, calendar, levelPrivacy, password)
                     else -> throw Exception() //
                 }
-                selectDownloads(info)
+                //selectDownloads(info)
                 array += info
             }
             close()

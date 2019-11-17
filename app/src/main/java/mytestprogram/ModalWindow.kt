@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import mytestprogram.models.LIST_TYPE
 import mytestprogram.models.RECORD_TYPE
 import mytestprogram.models.SCHEDULE_TYPE
@@ -83,17 +84,26 @@ class ModalWindow: DialogFragment() {
 
     private fun acceptingType(){
         if (state != "") {
-            val fragment = AddNoteForm()
-            fragment.activity = activity
-            fragment.onSend(when (state) {
-                buttonRecord.tag -> RECORD_TYPE
-                buttonTask.tag -> TASK_TYPE
-                buttonList.tag -> LIST_TYPE
-                buttonSchedule.tag -> SCHEDULE_TYPE
-                else -> -1
-            })
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
-            dismiss()
+            try {
+                val fragment = AddNoteForm()
+                fragment.activity = activity
+
+                val type = when (state) {
+                    buttonRecord.tag -> RECORD_TYPE
+                    buttonTask.tag -> TASK_TYPE
+                    buttonList.tag -> LIST_TYPE
+                    buttonSchedule.tag -> SCHEDULE_TYPE
+                    else -> -1
+                }
+
+                fragment.onSend(type)
+                Toast.makeText(context, type.toString(), Toast.LENGTH_SHORT).show()
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+                dismiss()
+            }
+            catch (e: Exception) {
+                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+            }
         } else textMessage.text = getString(R.string.not_selected)
     }
 }

@@ -105,26 +105,25 @@ class AddNoteForm: Fragment(), SendListener {
                     return
                 }
             }
-            // initialize info for adding in database
-            val info: InfoPrototype = object: InfoPrototype() {
-                override val id = -1
-                override val action = action
-                override val description = textDescription.text.toString()
-                override val nameDevice = android.os.Build.MODEL
-                override val isImportant = importantLabel.isChecked
-                override val isInTrash = false
-                override val dateCreate = Calendar.getInstance()
-                override val levelPrivacy = levelPrivacy
-                override val password = textPassword.text.toString()
-            }
-            when(type){
-                RECORD_TYPE -> info is InfoRecord
-                TASK_TYPE -> info is InfoTask
-                LIST_TYPE -> info is InfoList
-                SCHEDULE_TYPE -> info is InfoSchedule
-            }
+            val id = -1
+            val description = textDescription.text.toString()
+            val nameDevice = android.os.Build.MODEL
+            val isImportant = importantLabel.isChecked
+            val isInTrash = false
+            val dateCreate = Calendar.getInstance()
+            val password = textPassword.text.toString()
+            
             // create a new info in db
             try {
+                // initialize info for adding in database
+                Toast.makeText(context, type, Toast.LENGTH_SHORT).show()
+                val info = when(type){
+                    RECORD_TYPE -> InfoRecord(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
+                    TASK_TYPE -> InfoTask(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
+                    LIST_TYPE -> InfoList(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
+                    SCHEDULE_TYPE -> InfoSchedule(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
+                    else -> throw Exception()
+                }
                 if (mode == FORM_MODE)
                     activity.dbModel.insertNote(info)
                 else if (mode == FORM_MODE)
@@ -178,5 +177,4 @@ class AddNoteForm: Fragment(), SendListener {
     override fun onSend(data: Any?) {
         if (data is Int) type = data
     }
-
 }
