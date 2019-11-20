@@ -9,10 +9,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import mytestprogram.models.LIST_TYPE
-import mytestprogram.models.RECORD_TYPE
-import mytestprogram.models.SCHEDULE_TYPE
-import mytestprogram.models.TASK_TYPE
 
 class ModalWindow: DialogFragment() {
 
@@ -87,17 +83,6 @@ class ModalWindow: DialogFragment() {
             try {
                 val fragment = AddNoteForm()
                 fragment.activity = activity
-
-                val type = when (state) {
-                    buttonRecord.tag -> RECORD_TYPE
-                    buttonTask.tag -> TASK_TYPE
-                    buttonList.tag -> LIST_TYPE
-                    buttonSchedule.tag -> SCHEDULE_TYPE
-                    else -> -1
-                }
-
-                fragment.onSend(type)
-                Toast.makeText(context, type.toString(), Toast.LENGTH_SHORT).show()
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
                 dismiss()
             }

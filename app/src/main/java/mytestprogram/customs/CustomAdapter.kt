@@ -4,16 +4,16 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.support.v7.widget.RecyclerView.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import mytestprogram.models.InfoPrototype
 import mytestprogram.R
 import mytestprogram.NavigationActivity
+import mytestprogram.models.Container
 
 
 class CustomAdapter: Adapter<ViewHolder>() {
 
     lateinit var activity: NavigationActivity
     private lateinit var layoutInflater: LayoutInflater
-    lateinit var infos: ArrayList<InfoPrototype>
+    lateinit var infos: ArrayList<Container>
 
     override fun getItemCount() = infos.size
 

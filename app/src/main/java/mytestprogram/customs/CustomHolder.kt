@@ -11,16 +11,16 @@ import mytestprogram.models.*
 
 class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickListener{
 
-    val imageTypeNote: ImageView
-    val textAction: TextView
-    val hideContent: Button
-    val textDescription: TextView
-    val privacyState: Button
-    val editMode: Button
-    val copyNote: Button
-    val viewMode: Button
-    val dateCreate: TextView
-    val menuBar: LinearLayout
+    private val imageTypeNote: ImageView
+    private val textAction: TextView
+    private val hideContent: Button
+    private val textDescription: TextView
+    private val privacyState: Button
+    private val editMode: Button
+    private val copyNote: Button
+    private val viewMode: Button
+    private val dateCreate: TextView
+    private val menuBar: LinearLayout
 
     init {
         view.apply {
@@ -37,36 +37,27 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         }
     }
 
-    fun createHolder(activity: NavigationActivity, info: InfoPrototype){
+    fun createHolder(activity: NavigationActivity, container: Container){
 
-        imageTypeNote.setImageResource(
-            when {
-                (info is InfoRecord) -> R.drawable.record_note
-                (info is InfoTask) -> R.drawable.task_note
-                (info is InfoList) -> R.drawable.list_note
-                (info is InfoSchedule) -> R.drawable.schedule_note
-                else -> 0
-            }
-        )
-        textAction.text = info.action
-        textDescription.text = info.description
+        textAction.text = container.action
+        textDescription.text = container.description
 
         privacyState.setBackgroundResource(
-            when (info.levelPrivacy) {
+            when (container.privacy) {
                 1 -> R.drawable.flag_blue_active
                 2 -> R.drawable.flag_red_active
                 else -> R.drawable.flag_green_active
             }
         )
-        dateCreate.text = calendarToString(info.dateCreate)
+        dateCreate.text = calendarToString(container.dateCreate)
 
         editMode.setOnClickListener {
             try {
-                if (info.levelPrivacy == 2)
+                if (container.privacy == 2)
                     Toast.makeText(activity.baseContext, "недоступен данный режим", Toast.LENGTH_SHORT).show()
-                else if (info.levelPrivacy == 0) {
+                else if (container.privacy == 0) {
                     val fragment = AddNoteForm()
-                    fragment.info = info
+                    fragment.container = container
                     fragment.mode = AddNoteForm.EDIT_MODE
                     activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
                 }
@@ -77,9 +68,9 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         }
 
         viewMode.setOnClickListener {
-            if (info.levelPrivacy != 2){
+            if (container.privacy != 2){
                 val fragment = AddNoteForm()
-                fragment.info = info
+                fragment.container = container
                 fragment.mode = AddNoteForm.VIEW_MODE
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
             }
@@ -97,6 +88,4 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         Snackbar.make(view!!, "", Snackbar.LENGTH_INDEFINITE).show()
         return true
     }
-
-
 }

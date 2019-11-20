@@ -5,11 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import android.widget.Toast
 import mytestprogram.customs.BackgroundService
+import mytestprogram.models.Container
 import mytestprogram.models.DBModel
 
 class NavigationActivity : AppCompatActivity() {
@@ -37,12 +36,16 @@ class NavigationActivity : AppCompatActivity() {
 
         // работа с базой данных
 
-        try {
-            dbModel = DBModel(baseContext)
-        }
-        catch (ex: Exception) {
-            Toast.makeText(baseContext, ex.toString(), Toast.LENGTH_LONG).show()
-        }
+        dbModel = DBModel(baseContext)
+
+        dbModel.insertContainer(
+            Container(
+                action = "buy a bread",
+                description = "today",
+                isImportant = true
+            )
+        )
+        
         // В сетингах получаем настройки для последующей работы приложения
         //
         /*

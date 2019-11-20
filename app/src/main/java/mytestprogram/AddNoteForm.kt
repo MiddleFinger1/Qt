@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import mytestprogram.models.*
-import java.util.*
+import java.util.Calendar
 
 
 class AddNoteForm: Fragment(), SendListener {
 
-    private var type = -1
+    private var type = 0
     lateinit var activity: NavigationActivity
     private lateinit var buttonOk: Button
     private lateinit var buttonCancel: Button
@@ -31,7 +31,7 @@ class AddNoteForm: Fragment(), SendListener {
     private lateinit var privacyGroup: RadioGroup
 
     //states
-    var info: InfoPrototype? = null
+    var container: Container? = null
     var mode = FORM_MODE
     private var stateSwitcherParams = false
     private var statePrivacy = "public"
@@ -80,19 +80,11 @@ class AddNoteForm: Fragment(), SendListener {
                     LayoutParams(0, 0)
                 }
         }
-
-        when (type) {
-            RECORD_TYPE -> { }
-            TASK_TYPE -> { }
-            LIST_TYPE -> { }
-            SCHEDULE_TYPE -> { }
-        }
-
-        setMode(mode, info)
+        setMode(mode, this.container)
         return views
     }
 
-    private fun acceptCreating(oldInfo: InfoPrototype? = null){
+    private fun acceptCreating(oldInfo: Container? = null){
         val action = textAction.text.toString()
         if (action != ""){
             // check levelPrivacy by radio buttons
@@ -112,22 +104,16 @@ class AddNoteForm: Fragment(), SendListener {
             val isInTrash = false
             val dateCreate = Calendar.getInstance()
             val password = textPassword.text.toString()
-            
+
             // create a new info in db
             try {
                 // initialize info for adding in database
                 Toast.makeText(context, type, Toast.LENGTH_SHORT).show()
-                val info = when(type){
-                    RECORD_TYPE -> InfoRecord(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
-                    TASK_TYPE -> InfoTask(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
-                    LIST_TYPE -> InfoList(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
-                    SCHEDULE_TYPE -> InfoSchedule(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
-                    else -> throw Exception()
-                }
+                val container = Container(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
                 if (mode == FORM_MODE)
-                    activity.dbModel.insertNote(info)
+                    activity.dbModel.insertContainer(container)
                 else if (mode == FORM_MODE)
-                    activity.dbModel.updateNote(oldInfo!!.id, info)
+                    activity.dbModel.updateContainer(oldInfo!!.id, container)
             }
             catch (ex: Exception) {
                 Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show()
@@ -138,15 +124,15 @@ class AddNoteForm: Fragment(), SendListener {
         }
     }
 
-    private fun setMode(mode: Int, info: InfoPrototype? = null){
+    private fun setMode(mode: Int, container: Container? = null){
         this.mode = mode
 
-        if ((mode == EDIT_MODE || mode == VIEW_MODE) && info != null){
-            textAction.text.append(info.action)
-            textDescription.text.append(info.description)
-            noticeDevice.isChecked = info.nameDevice != ""
-            importantLabel.isChecked = info.isImportant
-            textPassword.text.append(info.password)
+        if ((mode == EDIT_MODE || mode == VIEW_MODE) && container != null){
+            textAction.text.append(container.action)
+            textDescription.text.append(container.description)
+            noticeDevice.isChecked = container.nameDevice != ""
+            importantLabel.isChecked = container.isImportant
+            textPassword.text.append(container.password)
         }
         if (mode == EDIT_MODE || mode == FORM_MODE)
             privacyGroup.setOnCheckedChangeListener{ group: RadioGroup, id: Int ->
@@ -159,7 +145,7 @@ class AddNoteForm: Fragment(), SendListener {
             }
         when (mode){
             FORM_MODE -> buttonOk.setOnClickListener { acceptCreating() }
-            EDIT_MODE -> buttonOk.setOnClickListener { acceptCreating(info) }
+            EDIT_MODE -> buttonOk.setOnClickListener { acceptCreating(container) }
             VIEW_MODE -> {
                 textAction.isFocusable = false
                 textDescription.isFocusable = false

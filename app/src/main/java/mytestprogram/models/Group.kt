@@ -11,7 +11,7 @@ class Group {
 
     companion object {
 
-        fun createGroup(array: ArrayList<InfoPrototype>, lambda: InfoPrototype.() -> Boolean) =
+        fun createGroup(array: ArrayList<Container>, lambda: Container.() -> Boolean) =
             Group().apply {
                 for (info in array)
                     if (lambda(info))
@@ -19,21 +19,17 @@ class Group {
             }
     }
 
-    private val notes =  arrayListOf<InfoPrototype>()
+    private val notes =  arrayListOf<Container>()
 
     fun getNotes() = notes
 
-    fun addNote(info: InfoPrototype) {
+    fun addNote(info: Container) {
         info.apply {
             notes += this
-            links += id to action
-            if (this is InfoTask ) {
-                if (deadLine is Calendar) arrayDeadLines += deadLine!!
-                if (checkTimes.isNotEmpty())
-                    arrayCheckTimes.addAll(checkTimes)
-
-            }
+            //links += id to action
+            if (deadLine is Calendar) arrayDeadLines += deadLine
+            if (times.isNotEmpty())
+                arrayCheckTimes.addAll(times)
         }
     }
-
 }
