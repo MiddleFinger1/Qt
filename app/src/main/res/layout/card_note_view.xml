@@ -14,10 +14,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ImageView
-                android:src="@drawable/add_note"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/flag_green_active"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:id="@+id/cardView.typeNote"
+                android:id="@+id/cardView.privacyState"
                 android:contentDescription="@string/action"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"/>
@@ -29,9 +30,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_toStartOf="@id/cardView.hideContent"
                 android:layout_alignParentEnd="false"
-                android:layout_toEndOf="@id/cardView.typeNote"
+                android:layout_toEndOf="@id/cardView.privacyState"
                 android:textAlignment="center"
-                android:textSize="18sp"/>
+                android:textSize="18sp" android:singleLine="true"/>
         <Button
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -52,12 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_below="@id/cardView.textDescription"
                 android:layout_height="32dp"
-                android:id="@+id/card_view.MenuBar" android:visibility="invisible">
-            <Button
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cardView.privacyState"
-                    android:layout_marginEnd="10dp"/>
+                android:id="@+id/card_view.MenuBar"
+                android:visibility="invisible">
             <Button
                     android:layout_width="32dp"
                     android:layout_height="match_parent"

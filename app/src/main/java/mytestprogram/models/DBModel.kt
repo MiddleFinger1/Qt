@@ -86,42 +86,44 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
     }
 
     fun updateContainer(id: Int, container: Container){
-        var sql = ""
-        for (item in container.items)
-            sql += "UPDATE $TABLE_ITEMS SET $PARENT_ID = $id, $ACTION = '${item.action}', $DESCRIPTION = " +
-                    "'${item.description}', $DATE_CREATE = '${calendarToString(item.dateCreate)}' WHERE $ID = ${item.id};"
-        container.apply {
-            sql += """UPDATE $TABLE_CONTAINERS SET 
-            $ACTION = '$action', 
-            $DESCRIPTION = '$description',
-            $NAME_OF_DEVICE = '$nameDevice',
-            $IS_IMPORTANT = $isImportant,
-            $IS_IN_TRASH = $isInTrash,
-            $LEVEL_PRIVACY = $privacy,
-            $PASSWORD = '$password',
-            $DATE_DEADLINE = '${calendarToString(deadLine)}',
-            $LINKS = '${linksToString(links)}',
-            $PATHS = '${pathsToString(paths)}',
-            $TIMES = '${checkTimeToString(times)}'
-             WHERE $ID = $id;
-        """.trimMargin()
+        try {
+            for (item in container.items)
+                updateItem(item.id, item)
+            ContentValues().apply {
+                container.apply{
+                    put(ACTION, action)
+                    put(DESCRIPTION, description)
+                    put(NAME_OF_DEVICE, nameDevice)
+                    put(IS_IMPORTANT, isImportant)
+                    put(IS_IN_TRASH, isInTrash)
+                    put(LEVEL_PRIVACY, privacy)
+                    put(PASSWORD, password)
+                    put(DATE_DEADLINE, calendarToString(deadLine))
+                    put(LINKS, linksToString(links))
+                    put(PATHS, pathsToString(paths))
+                    put(TIMES, checkTimeToString(times))
+                }
+                writableDatabase.update(TABLE_CONTAINERS, this, "$ID = $id", null)
+            }
         }
-        Toast.makeText(context, sql, Toast.LENGTH_LONG).show()
-        writableDatabase.execSQL(sql)
+        catch (ex: Exception) {
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
+        }
     }
 
     fun updateItem(id: Int, item: Item){
-        val sql: String
-        item.apply {
-            sql = """UPDATE $TABLE_CONTAINERS SET 
-            $ACTION = '$action', 
-            $DESCRIPTION = '$description'
-            $DATE_CREATE = '${calendarToString(dateCreate)}'
-             WHERE $ID = $id;
-        """.trimMargin()
+        try{
+            ContentValues().apply {
+                item.apply {
+                    put(ACTION, action)
+                    put(DESCRIPTION, description)
+                }
+                writableDatabase.update(TABLE_ITEMS, this, "$ID = $id", null)
+            }
         }
-        Toast.makeText(context, sql, Toast.LENGTH_LONG).show()
-        writableDatabase.execSQL(sql)
+        catch (ex: Exception){
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
+        }
     }
 
     fun deleteNote(id: Int, childId: Int = -1){

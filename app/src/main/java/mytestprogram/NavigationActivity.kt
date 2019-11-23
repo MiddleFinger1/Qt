@@ -37,14 +37,6 @@ class NavigationActivity : AppCompatActivity() {
         // работа с базой данных
 
         dbModel = DBModel(baseContext)
-
-        dbModel.insertContainer(
-            Container(
-                action = "buy a bread",
-                description = "today",
-                isImportant = true
-            )
-        )
         
         // В сетингах получаем настройки для последующей работы приложения
         //

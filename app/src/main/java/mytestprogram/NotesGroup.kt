@@ -20,23 +20,23 @@ class NotesGroup: Fragment() {
 
             fabCreateNote = findViewById(R.id.notesGroup_createNewNote)
             fabCreateNote.setOnClickListener {
-                val fragment = ModalWindow()
-                fragment.activity = activity
-                fragment.showNow(activity.supportFragmentManager, fragment.javaClass.name)
+                try {
+                    val fragment = AddNoteForm()
+                    fragment.activity = activity
+                    activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+                }
+                catch (e: Exception) {
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
             try {
-                //val recyclerView = findViewById<RecyclerView>(R.id.notesGroup_recyclerView)
-                //recyclerView.setHasFixedSize(true)
-                //val adapter = CustomAdapter()
-                //adapter.activity = activity
-                //activity.dbModel.createGroup()
-                //adapter.infos = activity.dbModel.mainGroup.getNotes()
-                //recyclerView.adapter = adapter
-
+                val recyclerView = findViewById<RecyclerView>(R.id.notesGroup_recyclerView)
+                recyclerView.setHasFixedSize(true)
+                val adapter = CustomAdapter()
+                adapter.activity = activity
                 activity.dbModel.createGroup()
-
-                for (item in activity.dbModel.mainGroup.getNotes())
-                    Toast.makeText(context, item.toString(), Toast.LENGTH_SHORT).show()
+                adapter.infos = activity.dbModel.mainGroup.getNotes()
+                recyclerView.adapter = adapter
             }
             catch (ex: Exception) {
                 Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show()

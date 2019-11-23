@@ -11,9 +11,8 @@ import mytestprogram.models.*
 import java.util.Calendar
 
 
-class AddNoteForm: Fragment(), SendListener {
+class AddNoteForm: Fragment() {
 
-    private var type = 0
     lateinit var activity: NavigationActivity
     private lateinit var buttonOk: Button
     private lateinit var buttonCancel: Button
@@ -34,7 +33,7 @@ class AddNoteForm: Fragment(), SendListener {
     var container: Container? = null
     var mode = FORM_MODE
     private var stateSwitcherParams = false
-    private var statePrivacy = "public"
+    private var statePrivacy = Container.PUBLIC
 
     companion object {
         const val FORM_MODE = 0
@@ -85,42 +84,41 @@ class AddNoteForm: Fragment(), SendListener {
     }
 
     private fun acceptCreating(oldInfo: Container? = null){
-        val action = textAction.text.toString()
-        if (action != ""){
-            // check levelPrivacy by radio buttons
-            val levelPrivacy = when {
-                (statePrivacy == "readonly" && textPassword.text.toString() != "") -> 0
-                (statePrivacy == "private" && textPassword.text.toString() != "") -> 1
-                (statePrivacy == "public") -> 2
-                else -> {
-                    Toast.makeText(context, "fill password", Toast.LENGTH_SHORT).show()
-                    return
+        try {
+            val action = textAction.text.toString()
+            if (action != ""){
+                // check levelPrivacy by radio buttons
+                val levelPrivacy = when {
+                    (statePrivacy == Container.READONLY && textPassword.text.toString() != "") -> Container.READONLY
+                    (statePrivacy == Container.PRIVATE && textPassword.text.toString() != "") -> Container.PRIVATE
+                    (statePrivacy == Container.PUBLIC) -> Container.PUBLIC
+                    else -> {
+                        Toast.makeText(context, "fill password", Toast.LENGTH_SHORT).show()
+                        return
+                    }
                 }
-            }
-            val id = -1
-            val description = textDescription.text.toString()
-            val nameDevice = android.os.Build.MODEL
-            val isImportant = importantLabel.isChecked
-            val isInTrash = false
-            val dateCreate = Calendar.getInstance()
-            val password = textPassword.text.toString()
+                val id = -1
+                val description = textDescription.text.toString()
+                val nameDevice = android.os.Build.MODEL
+                val isImportant = importantLabel.isChecked
+                val isInTrash = false
+                val dateCreate = Calendar.getInstance()
+                val password = textPassword.text.toString()
 
-            // create a new info in db
-            try {
+                // create a new info in db
                 // initialize info for adding in database
-                Toast.makeText(context, type, Toast.LENGTH_SHORT).show()
                 val container = Container(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
                 if (mode == FORM_MODE)
                     activity.dbModel.insertContainer(container)
-                else if (mode == FORM_MODE)
+                else if (mode == EDIT_MODE)
                     activity.dbModel.updateContainer(oldInfo!!.id, container)
+                val fragment = NotesGroup()
+                fragment.activity = activity
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
             }
-            catch (ex: Exception) {
-                Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show()
-            }
-            val fragment = NotesGroup()
-            fragment.activity = activity
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+        }
+        catch (ex: Exception) {
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -133,14 +131,19 @@ class AddNoteForm: Fragment(), SendListener {
             noticeDevice.isChecked = container.nameDevice != ""
             importantLabel.isChecked = container.isImportant
             textPassword.text.append(container.password)
+            statePrivacy = container.privacy
+            privacyGroup.check(when(container.privacy){
+                Container.READONLY -> R.id.addNote_readOnlyButton
+                Container.PRIVATE -> R.id.addNote_privateButton
+                else -> R.id.addNote_PublicButton
+            })
         }
         if (mode == EDIT_MODE || mode == FORM_MODE)
             privacyGroup.setOnCheckedChangeListener{ group: RadioGroup, id: Int ->
                 statePrivacy = when(id){
-                    R.id.addNote_PublicButton -> "public"
-                    R.id.addNote_readOnlyButton -> "readonly"
-                    R.id.addNote_privateButton -> "private"
-                    else -> ""
+                    R.id.addNote_readOnlyButton -> Container.READONLY
+                    R.id.addNote_privateButton -> Container.PRIVATE
+                    else -> Container.PUBLIC
                 }
             }
         when (mode){
@@ -158,9 +161,5 @@ class AddNoteForm: Fragment(), SendListener {
                 buttonPrivate.isFocusable = false
             }
         }
-    }
-
-    override fun onSend(data: Any?) {
-        if (data is Int) type = data
     }
 }
