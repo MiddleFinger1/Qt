@@ -28,4 +28,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="enter_password">Enter password</string>
+
+    <string name="Editing">Editing</string>
+    <string name="Viewing">Watching</string>
+    <string name="Filling">Filling</string>
 </resources>

@@ -7,7 +7,6 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import mytestprogram.R
 import mytestprogram.SendListener
@@ -17,8 +16,8 @@ class PasswordUnlock: DialogFragment() {
 
     var password = ""
     lateinit var sender: SendListener
+    var modeUnlock = 0
     private lateinit var textPassword: EditText
-    private lateinit var textStatus: TextView
     private lateinit var buttonCancel: Button
     private lateinit var buttonOk: Button
 
@@ -41,7 +40,6 @@ class PasswordUnlock: DialogFragment() {
         inflater.inflate(R.layout.layout_password_unlock, container).apply {
 
             textPassword = findViewById(R.id.passwordUnlock_textPassword)
-            textStatus = findViewById(R.id.passwordUnlock_textStatus)
             buttonCancel = findViewById(R.id.passwordUnlock_buttonCancel)
             buttonOk = findViewById(R.id.passwordUnlock_buttonOk)
 
@@ -51,7 +49,7 @@ class PasswordUnlock: DialogFragment() {
             buttonOk.setOnClickListener {
                 when(textPassword.text.toString()){
                     password -> {
-                        sender.onSend()
+                        sender.onSend(modeUnlock)
                         dismiss()
                     }
                     "" -> Toast.makeText(context, "пустой текст", Toast.LENGTH_SHORT).show()

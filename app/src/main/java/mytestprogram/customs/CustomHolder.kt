@@ -61,10 +61,11 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
 
         editMode.setOnClickListener {
             try {
-                if (container.privacy == Container.PUBLIC) onSend()
+                if (container.privacy == Container.PUBLIC) onSend(AddNoteForm.EDIT_MODE)
                 else {
                     val passwordUnlock = PasswordUnlock()
                     passwordUnlock.password = container.password
+                    passwordUnlock.modeUnlock = AddNoteForm.EDIT_MODE
                     passwordUnlock.sender = this
                     passwordUnlock.showNow(activity.supportFragmentManager, passwordUnlock.javaClass.name)
                 }
@@ -75,12 +76,13 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         }
 
         viewMode.setOnClickListener {
-            if (container.privacy != 2){
-                val fragment = AddNoteForm()
-                fragment.activity = activity
-                fragment.container = container
-                fragment.mode = AddNoteForm.VIEW_MODE
-                activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+            if (container.privacy != Container.PRIVATE) onSend(AddNoteForm.VIEW_MODE)
+            else {
+                val passwordUnlock = PasswordUnlock()
+                passwordUnlock.password = container.password
+                passwordUnlock.sender = this
+                passwordUnlock.modeUnlock = AddNoteForm.VIEW_MODE
+                passwordUnlock.showNow(activity.supportFragmentManager, passwordUnlock.javaClass.name)
             }
         }
 
@@ -89,16 +91,17 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
                 View.VISIBLE
             else View.INVISIBLE
         }
-
     }
 
     override fun onSend(data: Any?) {
         try {
-            val fragment = AddNoteForm()
-            fragment.activity = activity
-            fragment.container = container
-            fragment.mode = AddNoteForm.EDIT_MODE
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+            if (data is Int){
+                val fragment = AddNoteForm()
+                fragment.activity = activity
+                fragment.container = container
+                fragment.mode = data
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+            }
         }
         catch (ex: Exception) {
             Toast.makeText(activity, ex.toString(), Toast.LENGTH_LONG).show()
