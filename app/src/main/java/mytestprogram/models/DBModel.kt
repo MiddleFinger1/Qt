@@ -43,6 +43,7 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
 
     fun insertContainer(container: Container){
         try {
+            writableDatabase.beginTransaction()
             maxId++
             container.apply {
                 for (item in items)
@@ -60,14 +61,17 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                     writableDatabase.insert(TABLE_CONTAINERS, null, this)
                 }
             }
+            writableDatabase.setTransactionSuccessful()
         }
         catch(ex: Exception){
+            writableDatabase.endTransaction()
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
     fun insertItem(item: Item){
         try{
+            writableDatabase.beginTransaction()
             item.apply {
                 ContentValues().apply {
                     put(PARENT_ID, parentId)
@@ -77,8 +81,10 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                     writableDatabase.insert(TABLE_ITEMS, null, this)
                 }
             }
+            writableDatabase.setTransactionSuccessful()
         }
         catch (ex: Exception){
+            writableDatabase.endTransaction()
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
@@ -91,6 +97,7 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
 
     fun updateContainer(id: Int, container: Container){
         try {
+            writableDatabase.beginTransaction()
             for (item in container.items)
                 updateItem(item.id, item)
             ContentValues().apply {
@@ -109,14 +116,17 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                 }
                 writableDatabase.update(TABLE_CONTAINERS, this, "$ID = $id", null)
             }
+            writableDatabase.setTransactionSuccessful()
         }
         catch (ex: Exception) {
+            writableDatabase.endTransaction()
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
     fun updateItem(id: Int, item: Item){
         try{
+            writableDatabase.beginTransaction()
             ContentValues().apply {
                 item.apply {
                     put(ACTION, action)
@@ -124,8 +134,10 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                 }
                 writableDatabase.update(TABLE_ITEMS, this, "$ID = $id", null)
             }
+            writableDatabase.setTransactionSuccessful()
         }
         catch (ex: Exception){
+            writableDatabase.endTransaction()
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
