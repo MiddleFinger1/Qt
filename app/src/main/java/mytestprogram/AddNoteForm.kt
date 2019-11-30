@@ -1,5 +1,10 @@
 package mytestprogram
 
+import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +14,11 @@ import android.widget.*
 import android.widget.LinearLayout.LayoutParams
 import mytestprogram.models.*
 import java.util.Calendar
+import android.provider.MediaStore
+import android.support.v7.widget.CardView
+import android.support.v7.widget.RecyclerView
+import mytestprogram.customs.CustomAdapter
+import mytestprogram.customs.CustomHolderItems
 
 
 class AddNoteForm: Fragment() {
@@ -18,7 +28,6 @@ class AddNoteForm: Fragment() {
     private lateinit var buttonCancel: Button
     private lateinit var textSwitcher: TextView
     private lateinit var paramsLayout: LinearLayout
-
     private lateinit var importantLabel: CheckBox
     private lateinit var noticeDevice: CheckBox
     private lateinit var textAction: EditText
@@ -28,6 +37,12 @@ class AddNoteForm: Fragment() {
     private lateinit var buttonReadOnly: Button
     private lateinit var buttonPrivate: Button
     private lateinit var privacyGroup: RadioGroup
+    private lateinit var buttonAddPaths: Button
+    private lateinit var listsOfItems: RecyclerView
+
+    private val arrayPaths = arrayListOf<String>()
+
+    private lateinit var listOfPaths: TextView
 
     //states
     var container: Container? = null
@@ -60,6 +75,9 @@ class AddNoteForm: Fragment() {
             privacyGroup = findViewById(R.id.addNote_PrivacyGroup)
             importantLabel = findViewById(R.id.addNote_importantLabel)
             noticeDevice = findViewById(R.id.addNote_checkNoticeDevice)
+            buttonAddPaths = findViewById(R.id.addNote_addPaths)
+
+            listOfPaths = findViewById(R.id.addNote_listOfPaths)
         }
         //
         // check mode for form
@@ -107,7 +125,10 @@ class AddNoteForm: Fragment() {
 
                 // create a new info in db
                 // initialize info for adding in database
-                val container = Container(id, action, description, nameDevice, isImportant, isInTrash, dateCreate, levelPrivacy, password)
+                val container = Container(
+                    id, action, description, nameDevice, isImportant,
+                    isInTrash, dateCreate, levelPrivacy, password, paths = arrayPaths
+                )
                 if (mode == FORM_MODE)
                     activity.dbModel.insertContainer(container)
                 else if (mode == EDIT_MODE)
@@ -122,6 +143,33 @@ class AddNoteForm: Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == RESULT_OK){
+            try {
+                val path = getRealPathFromURI(context!!, data?.data!!)
+                listOfPaths.append(path + "\n")
+                arrayPaths.add(path)
+            }
+            catch (ex: Exception){
+
+            }
+        }
+    }
+
+    private fun getRealPathFromURI(context: Context, contentUri: Uri): String {
+        var cursor: Cursor? = null
+        try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+            val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            return cursor.getString(columnIndex)
+        } finally {
+            cursor?.close()
+        }
+    }
+
     private fun setMode(mode: Int, container: Container? = null){
         this.mode = mode
 
@@ -132,20 +180,28 @@ class AddNoteForm: Fragment() {
             importantLabel.isChecked = container.isImportant
             textPassword.text.append(container.password)
             statePrivacy = container.privacy
+            for (path in container.paths)
+                listOfPaths.append(path + "\n")
             privacyGroup.check(when(container.privacy){
                 Container.READONLY -> R.id.addNote_readOnlyButton
                 Container.PRIVATE -> R.id.addNote_privateButton
                 else -> R.id.addNote_PublicButton
             })
         }
-        if (mode == EDIT_MODE || mode == FORM_MODE)
-            privacyGroup.setOnCheckedChangeListener{ group: RadioGroup, id: Int ->
-                statePrivacy = when(id){
+        if (mode == EDIT_MODE || mode == FORM_MODE) {
+            privacyGroup.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+                statePrivacy = when (id) {
                     R.id.addNote_readOnlyButton -> Container.READONLY
                     R.id.addNote_privateButton -> Container.PRIVATE
                     else -> Container.PUBLIC
                 }
             }
+            buttonAddPaths.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "*/*"
+                startActivityForResult(intent, 0)
+            }
+        }
         when (mode){
             FORM_MODE -> buttonOk.setOnClickListener { acceptCreating() }
             EDIT_MODE -> buttonOk.setOnClickListener { acceptCreating(container) }

@@ -39,6 +39,7 @@ class NotesGroup: Fragment() {
                 recyclerView.adapter = adapter
             }
             catch (ex: Exception) {
+                Toast.makeText(context, "ошибка", Toast.LENGTH_LONG).show()
                 Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show()
             }
         }

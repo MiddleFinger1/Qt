@@ -26,9 +26,9 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
 
     init {
         view.apply {
-            textAction = findViewById(R.id.cardView_textAction)
-            hideContent = findViewById(R.id.cardView_hideContent)
-            textDescription = findViewById(R.id.cardView_textDescription)
+            textAction = findViewById(R.id.cardItem_textAction)
+            hideContent = findViewById(R.id.cardItem_hideContent)
+            textDescription = findViewById(R.id.cardItem_textDescription)
             privacyState = findViewById(R.id.cardView_privacyState)
             editMode = findViewById(R.id.cardView_editMode)
             copyNote = findViewById(R.id.cardView_copyNote)

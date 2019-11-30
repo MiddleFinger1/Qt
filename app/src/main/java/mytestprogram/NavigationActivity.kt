@@ -8,8 +8,8 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import mytestprogram.customs.BackgroundService
-import mytestprogram.models.Container
 import mytestprogram.models.DBModel
+import mytestprogram.models.Item
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -18,11 +18,6 @@ class NavigationActivity : AppCompatActivity() {
     private val appPreferences = "tasker"
     private lateinit var settings: SharedPreferences
     private lateinit var navView: BottomNavigationView
-
-    companion object {
-        //
-        const val TYPE_LANGUAGE = "type_language"
-    }
 
     //<service
     //android:name=".customs.BackgroundService"
@@ -37,7 +32,7 @@ class NavigationActivity : AppCompatActivity() {
         // работа с базой данных
 
         dbModel = DBModel(baseContext)
-        
+        //dbModel.insertItem(Item(parentId = 0, action = "hi"))
         // В сетингах получаем настройки для последующей работы приложения
         //
         /*

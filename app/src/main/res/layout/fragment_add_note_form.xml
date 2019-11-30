@@ -15,7 +15,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="15dp">
-
             <EditText
                     android:inputType="textMultiLine"
                     android:id="@+id/addNote.TextAction"
@@ -43,82 +42,11 @@
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:padding="10dp"/>
-            <LinearLayout
-                    android:orientation="vertical"
+            <include
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/addNote.paramsLayout">
-                <CheckBox
-                        android:text="Отметить, как важное"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.importantLabel"/>
-                <CheckBox
-                        android:text="@string/notice_device"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.checkNoticeDevice"/>
-                <Button
-                        android:text="Добавить ссылку на запись"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.addLinks"
-                        android:textAlignment="textStart"
-                        android:textAllCaps="false"/>
-                <Button
-                        android:text="добавить файлы"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.addPaths"
-                        android:textAlignment="textStart"
-                        android:textAllCaps="false"/>
-                <Button
-                        android:text="@string/manage_check_times"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.manageCheckTimes"
-                        android:textAllCaps="false"/>
-                <TextView
-                        android:text="уровень доступа к записе"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView2"
-                        android:padding="10dp"
-                        android:textSize="18sp"/>
-                <RadioGroup
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/addNote.PrivacyGroup">
-                    <RadioButton
-                            android:text="Открытая"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/addNote.PublicButton"
-                            android:layout_weight="1"
-                            android:checked="true"/>
-                    <RadioButton
-                            android:text="Только чтение"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/addNote.readOnlyButton"
-                            android:layout_weight="1"/>
-                    <RadioButton
-                            android:text="Закрытая"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/addNote.privateButton"
-                            android:layout_weight="1"/>
-                </RadioGroup>
-                <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:ems="10"
-                        android:id="@+id/addNote.textPassword"
-                        android:textColorHint="#000000"
-                        android:hint="@string/password"
-                        android:textColor="#000000"/>
-            </LinearLayout>
+                    layout="@layout/other_setting"
+                    android:visibility="visible"/>
         </LinearLayout>
     </ScrollView>
     <Button

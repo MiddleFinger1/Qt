@@ -56,6 +56,7 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                     put(DATE_CREATE, calendarToString(dateCreate))
                     put(LEVEL_PRIVACY, privacy)
                     put(PASSWORD, password)
+                    put(PATHS, pathsToString(paths))
                     writableDatabase.insert(TABLE_CONTAINERS, null, this)
                 }
             }
@@ -67,12 +68,15 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
 
     fun insertItem(item: Item){
         try{
-            val sql: String
             item.apply {
-                sql = "INSERT INTO $TABLE_ITEMS ($PARENT_ID, $ACTION, $DESCRIPTION, $DATE_CREATE)" +
-                        "VALUES ($parentId, '$action', '$description', '${calendarToString(dateCreate)}');"
+                ContentValues().apply {
+                    put(PARENT_ID, parentId)
+                    put(ACTION, action)
+                    put(DESCRIPTION, description)
+                    put(DATE_CREATE, calendarToString(dateCreate))
+                    writableDatabase.insert(TABLE_ITEMS, null, this)
+                }
             }
-            writableDatabase.execSQL(sql)
         }
         catch (ex: Exception){
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
@@ -149,13 +153,14 @@ class DBModel(private val context: Context): SQLiteOpenHelper(context, NAME_TABL
                     getInt(getColumnIndex(IS_IN_TRASH)) == 1,
                     stringToCalendar(getString(getColumnIndex(DATE_CREATE))),
                     getInt(getColumnIndex(LEVEL_PRIVACY)),
-                    getString(getColumnIndex(PASSWORD))
+                    getString(getColumnIndex(PASSWORD)),
+                    paths = stringToPaths(getString(getColumnIndex(PATHS)))
                 )
             close()
         }
         readableDatabase.rawQuery("SELECT * FROM $TABLE_ITEMS;", null).apply {
             while (moveToNext())
-                array[getInt(getColumnIndex(PARENT_ID)) - 1].items += Item(
+                array[getInt(getColumnIndex(PARENT_ID))].items += Item(
                     getInt(getColumnIndex(ID)),
                     getInt(getColumnIndex(PARENT_ID)),
                     getString(getColumnIndex(ACTION)),
