@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import mytestprogram.customs.BackgroundService
 import mytestprogram.models.DBModel
-import mytestprogram.models.Item
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -74,9 +73,11 @@ class NavigationActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.home -> {
+                supportActionBar?.title = "Главная"
                 supportFragmentManager.beginTransaction().replace(R.id.MainLayout, HomeSettings()).commit()
             }
             R.id.notes -> {
+                supportActionBar?.title = "Записи"
                 val fragment = NotesGroup()
                 fragment.activity = this
                 supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()

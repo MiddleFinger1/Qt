@@ -15,10 +15,6 @@ import android.widget.LinearLayout.LayoutParams
 import mytestprogram.models.*
 import java.util.Calendar
 import android.provider.MediaStore
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
-import mytestprogram.customs.CustomAdapter
-import mytestprogram.customs.CustomHolderItems
 
 
 class AddNoteForm: Fragment() {
@@ -38,7 +34,6 @@ class AddNoteForm: Fragment() {
     private lateinit var buttonPrivate: Button
     private lateinit var privacyGroup: RadioGroup
     private lateinit var buttonAddPaths: Button
-    private lateinit var listsOfItems: RecyclerView
 
     private val arrayPaths = arrayListOf<String>()
 
@@ -115,7 +110,6 @@ class AddNoteForm: Fragment() {
                         return
                     }
                 }
-                val id = -1
                 val description = textDescription.text.toString()
                 val nameDevice = android.os.Build.MODEL
                 val isImportant = importantLabel.isChecked
@@ -126,7 +120,7 @@ class AddNoteForm: Fragment() {
                 // create a new info in db
                 // initialize info for adding in database
                 val container = Container(
-                    id, action, description, nameDevice, isImportant,
+                    -1, action, description, nameDevice, isImportant,
                     isInTrash, dateCreate, levelPrivacy, password, paths = arrayPaths
                 )
                 if (mode == FORM_MODE)

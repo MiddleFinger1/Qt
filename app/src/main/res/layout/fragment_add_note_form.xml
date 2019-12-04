@@ -14,26 +14,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="15dp">
-            <EditText
-                    android:inputType="textMultiLine"
-                    android:id="@+id/addNote.TextAction"
+                android:padding="10dp">
+            <android.support.design.widget.TextInputLayout
+                    android:hint="@string/action"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:gravity="start|top"
-                    android:ems="10"
-                    android:text=""
-                    android:textSize="18sp"
-                    android:hint="@string/action"/>
-            <EditText
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000">
+                <EditText
+                        android:inputType="textMultiLine"
+                        android:id="@+id/addNote.TextAction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:text=""
+                        android:textSize="18sp"
+                        android:scrollbars="vertical"
+                        android:maxHeight="150dp"
+                        android:padding="5dp"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                    android:hint="@string/description"
+                    android:textAlignment="center"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:inputType="textMultiLine"
-                    android:gravity="start|top"
-                    android:ems="10"
-                    android:textSize="18sp"
-                    android:id="@+id/addNote.TextDescription"
-                    android:hint="@string/description"/>
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:gravity="start|top"
+                        android:ems="10"
+                        android:textSize="18sp"
+                        android:id="@+id/addNote.TextDescription"
+                        android:scrollbars="vertical"
+                        android:maxHeight="200dp"
+                        android:padding="5dp"/>
+            </android.support.design.widget.TextInputLayout>
             <TextView
                     android:text="@string/other_params"
                     android:layout_width="match_parent"

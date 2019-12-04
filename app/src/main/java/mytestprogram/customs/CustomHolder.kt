@@ -1,16 +1,17 @@
 package mytestprogram.customs
 
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import mytestprogram.AddNoteForm
 import mytestprogram.NavigationActivity
-import mytestprogram.R
 import mytestprogram.SendListener
 import mytestprogram.models.*
+import android.widget.TextView
+import mytestprogram.R
 
-class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickListener, SendListener {
+
+class CustomHolder(view: View): RecyclerView.ViewHolder(view), SendListener {
 
     private val textAction: TextView
     private val hideContent: Button
@@ -106,10 +107,5 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), View.OnLongClickL
         catch (ex: Exception) {
             Toast.makeText(activity, ex.toString(), Toast.LENGTH_LONG).show()
         }
-    }
-
-    override fun onLongClick(view: View?): Boolean {
-        Snackbar.make(view!!, "", Snackbar.LENGTH_INDEFINITE).show()
-        return true
     }
 }
