@@ -21,7 +21,8 @@
                 android:id="@+id/cardView.privacyState"
                 android:contentDescription="@string/action"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" android:layout_above="@id/cardItem.textDescription"/>
+                android:layout_alignParentStart="true"
+                android:layout_above="@id/cardItem.textDescription"/>
         <TextView
                 android:text="@string/action"
                 android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:id="@+id/cardItem.hideContent"
-                android:layout_alignParentEnd="true" android:layout_above="@id/cardItem.textDescription"/>
+                android:layout_alignParentEnd="true"
+                android:layout_above="@id/cardItem.textDescription"/>
         <TextView
                 android:text="@string/description"
                 android:layout_width="match_parent"
@@ -49,38 +51,12 @@
                 android:padding="10dp"
                 android:gravity="start|center_vertical"
                 android:maxLines="3"/>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+        <TextView
                 android:layout_below="@id/cardItem.textDescription"
-                android:layout_height="32dp"
-                android:id="@+id/card_view.MenuBar"
-                android:visibility="invisible">
-            <Button
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cardView.editMode"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/pencil"/>
-            <Button
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cardView.copyNote"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/copy_note"/>
-            <Button
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cardView.viewMode"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/view_mode"/>
-            <TextView
-                    android:text=""
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cardView.dateCreate"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end"/>
-        </LinearLayout>
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardView.dateCreate"
+                android:gravity="center_vertical|end"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

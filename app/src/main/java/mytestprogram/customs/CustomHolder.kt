@@ -1,8 +1,11 @@
 package mytestprogram.customs
 
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
 import android.widget.*
+import android.widget.LinearLayout.*
 import mytestprogram.AddNoteForm
 import mytestprogram.NavigationActivity
 import mytestprogram.SendListener
@@ -17,11 +20,7 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), SendListener {
     private val hideContent: Button
     private val textDescription: TextView
     private val privacyState: ImageView
-    private val editMode: Button
-    private val copyNote: Button
-    private val viewMode: Button
     private val dateCreate: TextView
-    private val menuBar: LinearLayout
     private lateinit var activity: NavigationActivity
     private lateinit var container: Container
 
@@ -31,11 +30,7 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), SendListener {
             hideContent = findViewById(R.id.cardItem_hideContent)
             textDescription = findViewById(R.id.cardItem_textDescription)
             privacyState = findViewById(R.id.cardView_privacyState)
-            editMode = findViewById(R.id.cardView_editMode)
-            copyNote = findViewById(R.id.cardView_copyNote)
-            viewMode = findViewById(R.id.cardView_viewMode)
             dateCreate = findViewById(R.id.cardView_dateCreate)
-            menuBar = findViewById(R.id.card_view_MenuBar)
         }
     }
 
@@ -60,38 +55,69 @@ class CustomHolder(view: View): RecyclerView.ViewHolder(view), SendListener {
 
         dateCreate.text = calendarToString(container.dateCreate)
 
-        editMode.setOnClickListener {
-            try {
-                if (container.privacy == Container.PUBLIC) onSend(AddNoteForm.EDIT_MODE)
+        hideContent.setOnClickListener {
+            showSnackBar(it)
+        }
+    }
+
+    private fun showSnackBar(view: View){
+
+        val snackBar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        val layout = snackBar.view as Snackbar.SnackbarLayout
+        val dp32 = activity.resources.getDimension(R.dimen.dp32).toInt()
+        val dp10 = activity.resources.getDimension(R.dimen.dp10).toInt()
+        val linearLayout = LinearLayout(activity.baseContext)
+
+        linearLayout.orientation = HORIZONTAL
+        linearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        linearLayout.gravity = Gravity.CENTER_VERTICAL
+
+        linearLayout.addView(Button(activity.baseContext).apply {
+            layoutParams = LayoutParams(dp32, dp32).apply {
+                marginEnd = dp10
+            }
+            setBackgroundResource(R.drawable.pencil)
+            setOnClickListener {
+                try {
+                    if (container.privacy == Container.PUBLIC) onSend(AddNoteForm.EDIT_MODE)
+                    else {
+                        val passwordUnlock = PasswordUnlock()
+                        passwordUnlock.password = container.password
+                        passwordUnlock.modeUnlock = AddNoteForm.EDIT_MODE
+                        passwordUnlock.sender = this@CustomHolder
+                        passwordUnlock.showNow(activity.supportFragmentManager, passwordUnlock.javaClass.name)
+                    }
+                }
+                catch (ex: Exception){
+                    Toast.makeText(activity, ex.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+        linearLayout.addView(Button(activity.baseContext).apply {
+            layoutParams = LayoutParams(dp32, dp32).apply {
+                marginEnd = dp10
+            }
+            setBackgroundResource(R.drawable.copy_note)
+        })
+        linearLayout.addView(Button(activity.baseContext).apply {
+            layoutParams = LayoutParams(dp32, dp32).apply {
+                marginEnd = dp10
+            }
+            setBackgroundResource(R.drawable.view_mode)
+            setOnClickListener {
+                if (container.privacy != Container.PRIVATE) onSend(AddNoteForm.VIEW_MODE)
                 else {
                     val passwordUnlock = PasswordUnlock()
                     passwordUnlock.password = container.password
-                    passwordUnlock.modeUnlock = AddNoteForm.EDIT_MODE
-                    passwordUnlock.sender = this
+                    passwordUnlock.sender = this@CustomHolder
+                    passwordUnlock.modeUnlock = AddNoteForm.VIEW_MODE
                     passwordUnlock.showNow(activity.supportFragmentManager, passwordUnlock.javaClass.name)
                 }
             }
-            catch (ex: Exception){
-                Toast.makeText(activity, ex.toString(), Toast.LENGTH_LONG).show()
-            }
-        }
-
-        viewMode.setOnClickListener {
-            if (container.privacy != Container.PRIVATE) onSend(AddNoteForm.VIEW_MODE)
-            else {
-                val passwordUnlock = PasswordUnlock()
-                passwordUnlock.password = container.password
-                passwordUnlock.sender = this
-                passwordUnlock.modeUnlock = AddNoteForm.VIEW_MODE
-                passwordUnlock.showNow(activity.supportFragmentManager, passwordUnlock.javaClass.name)
-            }
-        }
-
-        hideContent.setOnClickListener {
-            menuBar.visibility = if (menuBar.visibility == View.INVISIBLE)
-                View.VISIBLE
-            else View.INVISIBLE
-        }
+        })
+        layout.addView(linearLayout)
+        layout.setBackgroundResource(R.color.colorPrimaryDark)
+        snackBar.show()
     }
 
     override fun onSend(data: Any?) {
